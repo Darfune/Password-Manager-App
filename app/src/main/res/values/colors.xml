@@ -1,26 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Bright theme -->
-    <color name="primaryColor">#1e88e5</color>
-    <color name="primaryLightColor">#6ab7ff</color>
-    <color name="primaryDarkColor">#005cb2</color>
-    <color name="secondaryColor">#26c6da</color>
-    <color name="secondaryLightColor">#6ff9ff</color>
-    <color name="secondaryDarkColor">#0095a8</color>
-    <color name="primaryTextColor">#000000</color>
-    <color name="secondaryTextColor">#000000</color>
-    <!-- Dark theme -->
-    <color name="DarkModePrimaryColor">#1a237e</color>
-    <color name="DarkModePrimaryLightColor">#534bae</color>
-    <color name="DarkModePrimaryDarkColor">#000051</color>
-    <color name="DarkModeSecondaryColor">#304ffe</color>
-    <color name="DarkModeSecondaryLightColor">#7a7cff</color>
-    <color name="DarkModeSecondaryDarkColor">#0026ca</color>
-    <color name="DarkModePrimaryTextColor">#ffffff</color>
-    <color name="DarkModeSecondaryTextColor">#ffffff</color>
-    <!-- Main colors -->
-    <color name="white">#FFFFFF</color>
+    <color name="primaryColor">#1a237e</color>
+    <color name="primaryLightColor">#534bae</color>
+    <color name="primaryDarkColor">#000051</color>
+    <color name="secondaryColor">#039be5</color>
+    <color name="secondaryLightColor">#63ccff</color>
+    <color name="secondaryDarkColor">#006db3</color>
+    <color name="primaryTextColor">#f5f5f5</color>
+    <color name="secondaryTextColor">#212121</color>
+    <color name="white">#ffffff</color>
     <color name="black">#000000</color>
-
-
 </resources>

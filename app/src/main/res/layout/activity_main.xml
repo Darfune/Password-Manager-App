@@ -9,7 +9,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="80sp"
-        android:background="@color/primaryColor"
         android:id="@+id/viewHandlerBackground"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -22,14 +21,14 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_search" />
+            android:src="@drawable/ic_search"
+            />
 
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/searchbarEditText"
-            android:background="@color/primaryLightColor"
             android:hint="Search..."
             app:layout_constraintBaseline_creator="@+id/viewHandlerBackground"
             android:layout_marginRight="35sp"/>
@@ -42,8 +41,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/viewHandlerBackground"
-        android:background="@color/white"/>
+        app:layout_constraintTop_toBottomOf="@id/viewHandlerBackground"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addItemFloatingActionButton"
