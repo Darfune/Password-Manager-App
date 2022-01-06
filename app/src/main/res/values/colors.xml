@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Bright theme -->
+    <color name="primaryColor">#1e88e5</color>
+    <color name="primaryLightColor">#6ab7ff</color>
+    <color name="primaryDarkColor">#005cb2</color>
+    <color name="secondaryColor">#26c6da</color>
+    <color name="secondaryLightColor">#6ff9ff</color>
+    <color name="secondaryDarkColor">#0095a8</color>
+    <color name="primaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#000000</color>
+    <!-- Dark theme -->
+    <color name="DarkModePrimaryColor">#1a237e</color>
+    <color name="DarkModePrimaryLightColor">#534bae</color>
+    <color name="DarkModePrimaryDarkColor">#000051</color>
+    <color name="DarkModeSecondaryColor">#304ffe</color>
+    <color name="DarkModeSecondaryLightColor">#7a7cff</color>
+    <color name="DarkModeSecondaryDarkColor">#0026ca</color>
+    <color name="DarkModePrimaryTextColor">#ffffff</color>
+    <color name="DarkModeSecondaryTextColor">#ffffff</color>
+    <!-- Main colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+
 </resources>
