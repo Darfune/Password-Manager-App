@@ -16,22 +16,27 @@
         android:id="@+id/topToolBar"
         android:layout_width="match_parent"
         android:layout_height="80sp"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        android:background="@color/primaryLightColor"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_search"
-            />
+            app:tint="@color/white"/>
 
 
         <EditText
+            android:id="@+id/searchbarEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/searchbarEditText"
+            android:layout_marginRight="35sp"
+            android:textColorHint="@color/white"
             android:hint="Search..."
-            app:layout_constraintBaseline_creator="@+id/viewHandlerBackground"
-            android:layout_marginRight="35sp"/>
+            android:backgroundTint="@color/white"
+            app:layout_constraintBaseline_creator="@+id/viewHandlerBackground" />
 
     </androidx.appcompat.widget.Toolbar>
 
