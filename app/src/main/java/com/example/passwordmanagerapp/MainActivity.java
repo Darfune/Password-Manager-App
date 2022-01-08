@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -28,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private List<AppItem> listOfItems;
     private AppItemAdapter adapter;
     private FloatingActionButton addItemFloatingActionButton;
-
+    private SharedPreferences sharedPreferences;
+    private static final String filename = "SecureDataFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +39,11 @@ public class MainActivity extends AppCompatActivity {
 
         addItemFloatingActionButton = (FloatingActionButton) findViewById(R.id.addItemFloatingActionButton);
 
-        listOfItems = new LinkedList<>();
-        AppItem item1 = new AppItem("1","Hello", "World");
-        listOfItems.add(item1);
-        adapter = new AppItemAdapter(this,listOfItems);
+//        listOfItems = new LinkedList<>();
+//        sharedPreferences = (SharedPreferences) new SharePrefEncryption(this,filename);
+//        AppItem item1 = new AppItem("1","Hello", "World");
+//        listOfItems.add(item1);
+//        adapter = new AppItemAdapter(this,listOfItems);
 
         RecyclerView itemRecyclerView = findViewById(R.id.itemRecyclerView);
         itemRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -72,10 +75,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addItem(View view) {
-//        Log.i("In addItem function: ", "test");
-//        AppItem item2 = new AppItem("2","Hello 2", "World 2");
-//        listOfItems.add(item2);
-//        adapter.notifyDataSetChanged();
+
         startActivity(new Intent(MainActivity.this, AddApp.class));
 
     }
