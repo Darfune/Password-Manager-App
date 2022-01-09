@@ -7,11 +7,20 @@ import android.util.Log;
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKey;
 
+import com.example.passwordmanagerapp.Models.AppItem;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
 
@@ -42,10 +51,6 @@ public class SharePrefEncryption {
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
 
-
-//            sharedPreferencesForAppIds = context.getSharedPreferences(appIds, Context.MODE_PRIVATE).edit();
-
-
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
         }
@@ -53,39 +58,53 @@ public class SharePrefEncryption {
 
     }
 
-    public void addData(String app, String account, String pass) {
+    public void addData(List<String> data) {
+
+        JSONArray dataInJsonArray = new JSONArray(data);
 
 
-        Set<String> details = new HashSet<String>();
-
-        AtomicLong id = new AtomicLong();
-
-
-//        sharedPreferencesForAppIds.putString(id.toString(),app);
-
-
-        details.add(account);
-        details.add(pass);
+        UUID idPartOne = UUID.randomUUID();
+        UUID idPartTwo = UUID.randomUUID();
+        String id =  String.valueOf(idPartOne) +  String.valueOf(idPartTwo);
+        Log.i("New item's id: ", id);
         editor = sharedPreferencesForAppData.edit();
-        editor.putStringSet(app,details);
+        editor.putString(id, String.valueOf(dataInJsonArray));
         editor.apply();
         Log.i("Data: ","Stored");
     }
 
 
-    public void fetchData(){
+    public void fetchData() throws JSONException {
+
+        ArrayList arrayList = new ArrayList();
+        Map<String,?> entries = sharedPreferencesForAppData.getAll();
+        Integer count = sharedPreferencesForAppData.getAll().size();
+        Log.i("Item count: ", count.toString());
+        Set<String> keys = entries.keySet();
+        for(String key: keys){
+            JSONArray jsonArray = new JSONArray(sharedPreferencesForAppData.getString(key, "[]"));
+            for (int i = 0; i < jsonArray.length(); i++) {
+                Log.i("ArrayList", String.valueOf(i) + " **-** "+ (String) jsonArray.get(i));
+            }
+            String id = key;
+            String appName = (String) jsonArray.get(0);
+            String account = (String) jsonArray.get(1);
+            String password = (String) jsonArray.get(2);
+            AppItem item = new AppItem(id,appName,account,password);
+        }
+
 //        SharedPreferences sh = sharedPreferencesForAppData;
 
 //        Set<String> retrieved = sh.getStringSet(, new HashSet<String>());
 //        ArrayList<String> list = new ArrayList<String>(retrieved);
 //        retrieved.add(sharedPreferences.getString(app,null).toString());
-        Map<String,?> entries = sharedPreferencesForAppData.getAll();
-        Integer count = sharedPreferencesForAppData.getAll().size();
-        Set<String> keys = entries.keySet();
-        for(String item: keys){
-            Log.i("Data retrieved: ", item);
-            Log.i("file items amount: ",count.toString());
-        }
+//        Map<String,?> entries = sharedPreferencesForAppData.getAll();
+//        Integer count = sharedPreferencesForAppData.getAll().size();
+//        Set<String> keys = entries.keySet();
+//        for(String item: keys){
+//            Log.i("Data retrieved: ", item);
+//            Log.i("file items amount: ",count.toString());
+//        }
 
 //        return list;
     }

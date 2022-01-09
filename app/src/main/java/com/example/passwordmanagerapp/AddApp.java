@@ -12,9 +12,16 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.List;
 
 public class AddApp extends AppCompatActivity {
 
@@ -53,9 +60,15 @@ public class AddApp extends AppCompatActivity {
         String account = accountAutoCompleteTextView.getText().toString();
         String pass = passAutoCompleteTextView.getText().toString();
         String repass = repassAutoCompleteTextView.getText().toString();
-
+        List<String> data = new ArrayList<>();
+        data.add(app);
+        Log.i("Collection: ", String.valueOf(data));
+        data.add(account);
+        Log.i("Collection: ", String.valueOf(data));
+        data.add(pass);
+        Log.i("Collection: ", String.valueOf(data));
         if(repass.equals(pass)){
-            saveData.addData(app,account,pass);
+            saveData.addData(data);
         }
         else{
             Toast.makeText(this,"The two Passwords don't match\n\t\t\tTry again",Toast.LENGTH_SHORT).show();
@@ -65,20 +78,4 @@ public class AddApp extends AppCompatActivity {
 
     }
 
-    public void fetchItem(View view) {
-
-
-        saveData.fetchData();
-
-//        String app = appAutoCompleteTextView.getText().toString();
-//        Log.i("APP text: ", app);
-//        Toast.makeText(this,app,Toast.LENGTH_SHORT).show();
-//        ArrayList<String> retrieved = saveData.fetchData(app);
-//        for (String item :retrieved){
-//            Log.i("Returned value",item);
-//        }
-
-//        Toast.makeText(this,saveData.fetchData(app),Toast.LENGTH_SHORT).show();
-
-    }
 }

@@ -5,14 +5,17 @@ public class AppItem {
     private String id;
     private String appName;
     private String account;
+    private String password;
 
     public AppItem() {
+
     }
 
-    public AppItem(String id, String appName, String account) {
+    public AppItem(String id, String appName, String account, String password) {
         this.id = id;
         this.appName = appName;
         this.account = account;
+        this.password = password;
     }
 
     public String getId() {
@@ -37,5 +40,13 @@ public class AppItem {
 
     public void setAccount(String account) {
         this.account = account;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

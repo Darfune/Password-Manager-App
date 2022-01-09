@@ -18,8 +18,14 @@ import com.example.passwordmanagerapp.Adapters.AppItemAdapter;
 import com.example.passwordmanagerapp.Models.AppItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private List<AppItem> listOfItems;
     private AppItemAdapter adapter;
     private FloatingActionButton addItemFloatingActionButton;
-    private SharedPreferences sharedPreferences;
+    private SharePrefEncryption sharedPreferencesForAppData;
     private static final String filename = "SecureDataFile";
 
     @Override
@@ -39,16 +45,22 @@ public class MainActivity extends AppCompatActivity {
 
         addItemFloatingActionButton = (FloatingActionButton) findViewById(R.id.addItemFloatingActionButton);
 
-//        listOfItems = new LinkedList<>();
-//        sharedPreferences = (SharedPreferences) new SharePrefEncryption(this,filename);
-//        AppItem item1 = new AppItem("1","Hello", "World");
-//        listOfItems.add(item1);
-//        adapter = new AppItemAdapter(this,listOfItems);
+
+        sharedPreferencesForAppData = new SharePrefEncryption(this,filename);
+        listOfItems = new LinkedList<>();
+        adapter = new AppItemAdapter(this,listOfItems);
 
         RecyclerView itemRecyclerView = findViewById(R.id.itemRecyclerView);
         itemRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         itemRecyclerView.setAdapter(adapter);
+
+        try {
+            showUsersData();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
         searchbarEditText = (EditText) findViewById(R.id.searchbarEditText);
 
@@ -70,6 +82,24 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        try {
+            showUsersData();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showUsersData() throws JSONException {
+
+        sharedPreferencesForAppData.fetchData();
+
 
 
     }
