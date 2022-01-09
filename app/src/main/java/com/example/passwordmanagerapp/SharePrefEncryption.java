@@ -74,14 +74,14 @@ public class SharePrefEncryption {
     }
 
 
-    public void fetchData() throws JSONException {
+    public AppItem fetchData(String key) throws JSONException {
 
-        ArrayList arrayList = new ArrayList();
-        Map<String,?> entries = sharedPreferencesForAppData.getAll();
-        Integer count = sharedPreferencesForAppData.getAll().size();
-        Log.i("Item count: ", count.toString());
-        Set<String> keys = entries.keySet();
-        for(String key: keys){
+
+//        Integer count = sharedPreferencesForAppData.getAll().size();
+//        Log.i("Item count: ", count.toString());
+//        Map<String,?> entries = sharedPreferencesForAppData.getAll();
+//        Set<String> keys = entries.keySet();
+//        for(String key: keys){
             JSONArray jsonArray = new JSONArray(sharedPreferencesForAppData.getString(key, "[]"));
             for (int i = 0; i < jsonArray.length(); i++) {
                 Log.i("ArrayList", String.valueOf(i) + " **-** "+ (String) jsonArray.get(i));
@@ -91,7 +91,7 @@ public class SharePrefEncryption {
             String account = (String) jsonArray.get(1);
             String password = (String) jsonArray.get(2);
             AppItem item = new AppItem(id,appName,account,password);
-        }
+//        }
 
 //        SharedPreferences sh = sharedPreferencesForAppData;
 
@@ -107,6 +107,12 @@ public class SharePrefEncryption {
 //        }
 
 //        return list;
+        return item;
+    }
+
+    public Map<String,?> getAll() {
+        Map<String,?> entries = sharedPreferencesForAppData.getAll();
+        return (Map<String, ?>) entries;
     }
 
 //    public ArrayList<String> fetchData(String app){

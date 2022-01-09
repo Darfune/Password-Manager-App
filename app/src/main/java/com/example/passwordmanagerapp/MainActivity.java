@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText searchbarEditText;
     private AppItemAdapter appItemAdapter;
     private List<AppItem> listOfItems;
-    private AppItemAdapter adapter;
+
     private FloatingActionButton addItemFloatingActionButton;
     private SharePrefEncryption sharedPreferencesForAppData;
     private static final String filename = "SecureDataFile";
@@ -48,12 +48,12 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferencesForAppData = new SharePrefEncryption(this,filename);
         listOfItems = new LinkedList<>();
-        adapter = new AppItemAdapter(this,listOfItems);
+        appItemAdapter = new AppItemAdapter(this,listOfItems);
 
         RecyclerView itemRecyclerView = findViewById(R.id.itemRecyclerView);
         itemRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        itemRecyclerView.setAdapter(adapter);
+        itemRecyclerView.setAdapter(appItemAdapter);
 
         try {
             showUsersData();
@@ -90,15 +90,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         try {
-            showUsersData();
+
+                showUsersData();
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     private void showUsersData() throws JSONException {
+        listOfItems.clear();
+        Map<String,?> entries = sharedPreferencesForAppData.getAll();
+        Set<String> keys = entries.keySet();
+        if(!keys.isEmpty()){
+            for(String key: keys){
+                AppItem item = sharedPreferencesForAppData.fetchData(key);
+                listOfItems.add(item);
+            }
+            appItemAdapter.notifyDataSetChanged();
+        }
 
-        sharedPreferencesForAppData.fetchData();
 
 
 
