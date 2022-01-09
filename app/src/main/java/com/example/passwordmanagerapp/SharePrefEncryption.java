@@ -6,48 +6,49 @@ import android.util.Log;
 
 import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.security.crypto.MasterKey;
-import androidx.security.crypto.MasterKeys;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicLong;
 
 
 public class SharePrefEncryption {
 
 
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferencesForAppData;
+    private SharedPreferences.Editor sharedPreferencesForAppIds;
     private SharedPreferences.Editor editor;
+    private static final String appIds = "Apps_list";
 
     public SharePrefEncryption(Context context, String filename) {
 
-        editor = sharedPreferences.edit();
+
+
+
 
         try {
-            MasterKey masterKey = new MasterKey.Builder(context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
+            MasterKey masterKeyData = new MasterKey.Builder(context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
                     .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
                     .build();
 
-            sharedPreferences = EncryptedSharedPreferences.create(
+            sharedPreferencesForAppData = EncryptedSharedPreferences.create(
                     context,
                     filename,
-                    masterKey,
+                    masterKeyData,
                     EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
                     EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             );
 
 
+//            sharedPreferencesForAppIds = context.getSharedPreferences(appIds, Context.MODE_PRIVATE).edit();
 
 
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
         }
-
 
 
     }
@@ -57,19 +58,48 @@ public class SharePrefEncryption {
 
         Set<String> details = new HashSet<String>();
 
+        AtomicLong id = new AtomicLong();
+
+
+//        sharedPreferencesForAppIds.putString(id.toString(),app);
+
+
         details.add(account);
         details.add(pass);
-
+        editor = sharedPreferencesForAppData.edit();
         editor.putStringSet(app,details);
         editor.apply();
+        Log.i("Data: ","Stored");
     }
 
-    public String fetchData(String app){
-        SharedPreferences.Editor editor = sharedPreferences.edit();
 
-//        Set<String> retrieved = editorgetStringSet(app,null);
+    public void fetchData(){
+//        SharedPreferences sh = sharedPreferencesForAppData;
+
+//        Set<String> retrieved = sh.getStringSet(, new HashSet<String>());
+//        ArrayList<String> list = new ArrayList<String>(retrieved);
 //        retrieved.add(sharedPreferences.getString(app,null).toString());
-//        Log.i("Data retrieved: ", retrieved.toString());
-        return "hello";
+        Map<String,?> entries = sharedPreferencesForAppData.getAll();
+        Integer count = sharedPreferencesForAppData.getAll().size();
+        Set<String> keys = entries.keySet();
+        for(String item: keys){
+            Log.i("Data retrieved: ", item);
+            Log.i("file items amount: ",count.toString());
+        }
+
+//        return list;
     }
+
+//    public ArrayList<String> fetchData(String app){
+//        SharedPreferences sh = sharedPreferencesForAppData;
+//
+//        Set<String> retrieved = sh.getStringSet(app, new HashSet<String>());
+//        ArrayList<String> list = new ArrayList<String>(retrieved);
+////        retrieved.add(sharedPreferences.getString(app,null).toString());
+//        for(String item: list){
+//            Log.i("Data retrieved: ", item);
+//        }
+//
+//        return list;
+//    }
 }

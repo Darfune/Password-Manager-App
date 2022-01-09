@@ -6,6 +6,7 @@ import androidx.security.crypto.MasterKeys;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 
 public class AddApp extends AppCompatActivity {
 
@@ -43,10 +45,6 @@ public class AddApp extends AppCompatActivity {
 
         saveData = new SharePrefEncryption(this,filename);
 
-
-
-
-
     }
 
     public void addItem(View view) {
@@ -55,11 +53,12 @@ public class AddApp extends AppCompatActivity {
         String account = accountAutoCompleteTextView.getText().toString();
         String pass = passAutoCompleteTextView.getText().toString();
         String repass = repassAutoCompleteTextView.getText().toString();
+
         if(repass.equals(pass)){
             saveData.addData(app,account,pass);
         }
         else{
-            Toast.makeText(this,"The two Passwords don't match\n        Try again",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"The two Passwords don't match\n\t\t\tTry again",Toast.LENGTH_SHORT).show();
             passAutoCompleteTextView.setText("");
             repassAutoCompleteTextView.setText("");
         }
@@ -68,8 +67,18 @@ public class AddApp extends AppCompatActivity {
 
     public void fetchItem(View view) {
 
-        String app = appAutoCompleteTextView.getText().toString();
-        Toast.makeText(this,saveData.fetchData(app),Toast.LENGTH_SHORT).show();
+
+        saveData.fetchData();
+
+//        String app = appAutoCompleteTextView.getText().toString();
+//        Log.i("APP text: ", app);
+//        Toast.makeText(this,app,Toast.LENGTH_SHORT).show();
+//        ArrayList<String> retrieved = saveData.fetchData(app);
+//        for (String item :retrieved){
+//            Log.i("Returned value",item);
+//        }
+
+//        Toast.makeText(this,saveData.fetchData(app),Toast.LENGTH_SHORT).show();
 
     }
 }
