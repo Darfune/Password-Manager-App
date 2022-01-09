@@ -76,12 +76,6 @@ public class SharePrefEncryption {
 
     public AppItem fetchData(String key) throws JSONException {
 
-
-//        Integer count = sharedPreferencesForAppData.getAll().size();
-//        Log.i("Item count: ", count.toString());
-//        Map<String,?> entries = sharedPreferencesForAppData.getAll();
-//        Set<String> keys = entries.keySet();
-//        for(String key: keys){
             JSONArray jsonArray = new JSONArray(sharedPreferencesForAppData.getString(key, "[]"));
             for (int i = 0; i < jsonArray.length(); i++) {
                 Log.i("ArrayList", String.valueOf(i) + " **-** "+ (String) jsonArray.get(i));
@@ -91,22 +85,7 @@ public class SharePrefEncryption {
             String account = (String) jsonArray.get(1);
             String password = (String) jsonArray.get(2);
             AppItem item = new AppItem(id,appName,account,password);
-//        }
 
-//        SharedPreferences sh = sharedPreferencesForAppData;
-
-//        Set<String> retrieved = sh.getStringSet(, new HashSet<String>());
-//        ArrayList<String> list = new ArrayList<String>(retrieved);
-//        retrieved.add(sharedPreferences.getString(app,null).toString());
-//        Map<String,?> entries = sharedPreferencesForAppData.getAll();
-//        Integer count = sharedPreferencesForAppData.getAll().size();
-//        Set<String> keys = entries.keySet();
-//        for(String item: keys){
-//            Log.i("Data retrieved: ", item);
-//            Log.i("file items amount: ",count.toString());
-//        }
-
-//        return list;
         return item;
     }
 
@@ -115,16 +94,4 @@ public class SharePrefEncryption {
         return (Map<String, ?>) entries;
     }
 
-//    public ArrayList<String> fetchData(String app){
-//        SharedPreferences sh = sharedPreferencesForAppData;
-//
-//        Set<String> retrieved = sh.getStringSet(app, new HashSet<String>());
-//        ArrayList<String> list = new ArrayList<String>(retrieved);
-////        retrieved.add(sharedPreferences.getString(app,null).toString());
-//        for(String item: list){
-//            Log.i("Data retrieved: ", item);
-//        }
-//
-//        return list;
-//    }
 }

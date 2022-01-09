@@ -29,7 +29,7 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
+    private RecyclerView itemRecyclerView;
     private EditText searchbarEditText;
     private AppItemAdapter appItemAdapter;
     private List<AppItem> listOfItems;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         listOfItems = new LinkedList<>();
         appItemAdapter = new AppItemAdapter(this,listOfItems);
 
-        RecyclerView itemRecyclerView = findViewById(R.id.itemRecyclerView);
+        itemRecyclerView = findViewById(R.id.itemRecyclerView);
         itemRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         itemRecyclerView.setAdapter(appItemAdapter);
