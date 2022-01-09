@@ -19,10 +19,12 @@ public class AppItemAdapter extends RecyclerView.Adapter<AppItemAdapter.ViewHold
 
     private Context context;
     List<AppItem> itemsList;
+    private OnItemListener monItemListener;
 
-    public AppItemAdapter(Context context, List<AppItem> itemsList){
+    public AppItemAdapter(Context context, List<AppItem> itemsList, OnItemListener onItemListener){
         this.context = context;
         this.itemsList = itemsList;
+        this.monItemListener = onItemListener;
     }
 
     @NonNull
@@ -31,7 +33,7 @@ public class AppItemAdapter extends RecyclerView.Adapter<AppItemAdapter.ViewHold
 
         View view = LayoutInflater.from(context).inflate(R.layout.item_design, parent, false);
 
-        return new AppItemAdapter.ViewHolder(view);
+        return new AppItemAdapter.ViewHolder(view,monItemListener);
     }
 
     @Override
@@ -50,22 +52,34 @@ public class AppItemAdapter extends RecyclerView.Adapter<AppItemAdapter.ViewHold
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public TextView appNameTextView;
         public TextView accountTextView;
         public ImageView imageViewAppIcons;
+        OnItemListener onItemListener;
 
 
-
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnItemListener onItemListener) {
             super(itemView);
 
             appNameTextView = itemView.findViewById(R.id.appNameTextView);
             accountTextView = itemView.findViewById(R.id.accountTextView);
             imageViewAppIcons = itemView.findViewById(R.id.imageViewAppIcons);
 
+            this.onItemListener = onItemListener;
+            itemView.setOnClickListener(this);
 
         }
+
+        @Override
+        public void onClick(View view) {
+            onItemListener.onNoteClick(getAdapterPosition());
+        }
     }
+
+    public interface OnItemListener{
+        void onNoteClick(int position);
+    }
+
 }

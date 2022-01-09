@@ -77,9 +77,9 @@ public class SharePrefEncryption {
     public AppItem fetchData(String key) throws JSONException {
 
             JSONArray jsonArray = new JSONArray(sharedPreferencesForAppData.getString(key, "[]"));
-            for (int i = 0; i < jsonArray.length(); i++) {
-                Log.i("ArrayList", String.valueOf(i) + " **-** "+ (String) jsonArray.get(i));
-            }
+//            for (int i = 0; i < jsonArray.length(); i++) {
+//                Log.i("ArrayList", String.valueOf(i) + " **-** "+ (String) jsonArray.get(i));
+//            }
             String id = key;
             String appName = (String) jsonArray.get(0);
             String account = (String) jsonArray.get(1);

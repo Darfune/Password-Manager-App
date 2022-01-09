@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -27,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AppItemAdapter.OnItemListener{
 
     private RecyclerView itemRecyclerView;
     private EditText searchbarEditText;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferencesForAppData = new SharePrefEncryption(this,filename);
         listOfItems = new LinkedList<>();
-        appItemAdapter = new AppItemAdapter(this,listOfItems);
+        appItemAdapter = new AppItemAdapter(this,listOfItems, this);
 
         itemRecyclerView = findViewById(R.id.itemRecyclerView);
         itemRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -119,5 +120,15 @@ public class MainActivity extends AppCompatActivity {
 
         startActivity(new Intent(MainActivity.this, AddApp.class));
 
+    }
+
+    @Override
+    public void onNoteClick(int position) {
+        Log.i("Item ", "Clicked");
+
+        AppItem p = listOfItems.get(position);
+        Intent intent = new Intent(this,SelectedItemViewActivity.class);
+        intent.putExtra("selectedItem", (Parcelable) p);
+        startActivity(intent);
     }
 }

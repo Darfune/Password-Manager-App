@@ -1,6 +1,9 @@
 package com.example.passwordmanagerapp.Models;
 
-public class AppItem {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class AppItem implements Parcelable {
 
     private String id;
     private String appName;
@@ -17,6 +20,25 @@ public class AppItem {
         this.account = account;
         this.password = password;
     }
+
+    protected AppItem(Parcel in) {
+        id = in.readString();
+        appName = in.readString();
+        account = in.readString();
+        password = in.readString();
+    }
+
+    public static final Creator<AppItem> CREATOR = new Creator<AppItem>() {
+        @Override
+        public AppItem createFromParcel(Parcel in) {
+            return new AppItem(in);
+        }
+
+        @Override
+        public AppItem[] newArray(int size) {
+            return new AppItem[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -48,5 +70,18 @@ public class AppItem {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(appName);
+        parcel.writeString(account);
+        parcel.writeString(password);
     }
 }
