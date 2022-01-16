@@ -51,11 +51,7 @@ public class MainActivity extends AppCompatActivity implements AppItemAdapter.On
     private FloatingActionButton addItemFloatingActionButton;
     private SharePrefEncryption sharedPreferencesForAppData;
     private static final String filename = "SecureDataFile";
-    private Boolean authorization = false;
 
-    private BiometricPrompt biometricPrompt;
-    private BiometricPrompt.PromptInfo promptInfo;
-    private ConstraintLayout mainActivityLayout;
 
     @SuppressLint("ResourceType")
     @Override
@@ -63,12 +59,7 @@ public class MainActivity extends AppCompatActivity implements AppItemAdapter.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainActivityLayout = findViewById(R.id.mainActivity);
-
-        FingerPrintAuth();
-
         addItemFloatingActionButton = (FloatingActionButton) findViewById(R.id.addItemFloatingActionButton);
-
 
         sharedPreferencesForAppData = new SharePrefEncryption(this,filename);
         listOfItems = new LinkedList<>();
@@ -85,8 +76,6 @@ public class MainActivity extends AppCompatActivity implements AppItemAdapter.On
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
 
 
         searchbarEditText = (EditText) findViewById(R.id.searchbarEditText);
@@ -113,72 +102,16 @@ public class MainActivity extends AppCompatActivity implements AppItemAdapter.On
 
     }
 
-    private void FingerPrintAuth() {
-
-        BiometricManager biometricManager = BiometricManager.from(this);
-        switch (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)){
-            case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
-                Toast.makeText(this,"Device doesn't have fingerprint",Toast.LENGTH_SHORT).show();
-                break;
-            case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
-                Toast.makeText(this,"Fingerprint hardware not working",Toast.LENGTH_SHORT).show();
-                break;
-            case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
-                Toast.makeText(this,"No FingerPrint Assigned",Toast.LENGTH_SHORT).show();
-                final Intent enrollIntent = new Intent(Settings.ACTION_BIOMETRIC_ENROLL);
-                enrollIntent.putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
-                        BIOMETRIC_STRONG | DEVICE_CREDENTIAL);
-                startActivityForResult(enrollIntent,1);
-                break;
-        }
-
-        mainActivityLayout.setVisibility(View.INVISIBLE);
-        Executor executor = ContextCompat.getMainExecutor(this);
-
-        biometricPrompt = new BiometricPrompt(MainActivity.this, executor, new BiometricPrompt.AuthenticationCallback() {
-            @Override
-            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
-                super.onAuthenticationError(errorCode, errString);
-                Toast.makeText(getApplicationContext(),"Authentication Error",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
-                super.onAuthenticationSucceeded(result);
-                mainActivityLayout.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAuthenticationFailed() {
-                super.onAuthenticationFailed();
-                Toast.makeText(getApplicationContext(),"Authentication Failed",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        promptInfo = new BiometricPrompt.PromptInfo.Builder().setTitle("FingerPrint Authentication")
-                .setDescription("Use FingerPrint to Login")
-                .setDeviceCredentialAllowed(true).build();
-
-        biometricPrompt.authenticate(promptInfo);
-
-    }
-
     @Override
     protected void onRestart() {
         super.onRestart();
-        FingerPrintAuth();
-        try {
-            showUsersData();
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        Intent intent = new Intent(getApplicationContext(),PinCodeActivity.class);
+        startActivity(intent);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        FingerPrintAuth();
         try {
             showUsersData();
 
@@ -199,9 +132,6 @@ public class MainActivity extends AppCompatActivity implements AppItemAdapter.On
             appItemAdapter.notifyDataSetChanged();
         }
 
-
-
-
     }
 
     public void addItem(View view) {
@@ -212,8 +142,6 @@ public class MainActivity extends AppCompatActivity implements AppItemAdapter.On
 
     @Override
     public void onNoteClick(int position) {
-        Log.i("Item ", "Clicked");
-
         AppItem p = listOfItems.get(position);
         Intent intent = new Intent(this,SelectedItemViewActivity.class);
         intent.putExtra("selectedItem", (Parcelable) p);

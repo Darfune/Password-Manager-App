@@ -33,9 +33,6 @@ public class AddApp extends AppCompatActivity {
 
     private SharePrefEncryption saveData;
     private static final String filename = "SecureDataFile";
-    public static final String SHARED_PREFS = "sharedPrefs";
-    public static final String TEXT = "text";
-    public static final String SWITCH1 = "switch1";
 
 
     @Override
