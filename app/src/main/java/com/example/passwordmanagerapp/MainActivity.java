@@ -1,5 +1,8 @@
 package com.example.passwordmanagerapp;
 
+import static android.hardware.biometrics.BiometricManager.Authenticators.BIOMETRIC_STRONG;
+import static android.hardware.biometrics.BiometricManager.Authenticators.DEVICE_CREDENTIAL;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricManager;
@@ -15,6 +18,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -60,8 +64,6 @@ public class MainActivity extends AppCompatActivity implements AppItemAdapter.On
         setContentView(R.layout.activity_main);
 
         mainActivityLayout = findViewById(R.id.mainActivity);
-
-
 
         FingerPrintAuth();
 
@@ -114,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements AppItemAdapter.On
     private void FingerPrintAuth() {
 
         BiometricManager biometricManager = BiometricManager.from(this);
-        switch (biometricManager.canAuthenticate()){
+        switch (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)){
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
                 Toast.makeText(this,"Device doesn't have fingerprint",Toast.LENGTH_SHORT).show();
                 break;
@@ -123,6 +125,10 @@ public class MainActivity extends AppCompatActivity implements AppItemAdapter.On
                 break;
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
                 Toast.makeText(this,"No FingerPrint Assigned",Toast.LENGTH_SHORT).show();
+                final Intent enrollIntent = new Intent(Settings.ACTION_BIOMETRIC_ENROLL);
+                enrollIntent.putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
+                        BIOMETRIC_STRONG | DEVICE_CREDENTIAL);
+                startActivityForResult(enrollIntent,1);
                 break;
         }
 
@@ -150,7 +156,8 @@ public class MainActivity extends AppCompatActivity implements AppItemAdapter.On
         });
 
         promptInfo = new BiometricPrompt.PromptInfo.Builder().setTitle("FingerPrint Authentication")
-                .setDescription("Use FingerPrint to Login").setDeviceCredentialAllowed(true).build();
+                .setDescription("Use FingerPrint to Login")
+                .setDeviceCredentialAllowed(true).build();
 
         biometricPrompt.authenticate(promptInfo);
 
