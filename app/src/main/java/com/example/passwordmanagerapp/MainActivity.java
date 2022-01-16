@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements AppItemAdapter.On
     private FloatingActionButton addItemFloatingActionButton;
     private SharePrefEncryption sharedPreferencesForAppData;
     private static final String filename = "SecureDataFile";
+    private Boolean authorization = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +57,14 @@ public class MainActivity extends AppCompatActivity implements AppItemAdapter.On
 
         itemRecyclerView.setAdapter(appItemAdapter);
 
-        try {
-            showUsersData();
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (authorization){
+            try {
+                showUsersData();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
+
 
 
         searchbarEditText = (EditText) findViewById(R.id.searchbarEditText);
