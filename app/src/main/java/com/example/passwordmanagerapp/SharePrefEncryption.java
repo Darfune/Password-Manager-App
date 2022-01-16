@@ -28,15 +28,8 @@ public class SharePrefEncryption {
 
 
     private SharedPreferences sharedPreferencesForAppData;
-    private SharedPreferences.Editor sharedPreferencesForAppIds;
-    private SharedPreferences.Editor editor;
-    private static final String appIds = "Apps_list";
 
     public SharePrefEncryption(Context context, String filename) {
-
-
-
-
 
         try {
             MasterKey masterKeyData = new MasterKey.Builder(context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
@@ -60,8 +53,9 @@ public class SharePrefEncryption {
 
     public void addData(List<String> data) {
 
-        JSONArray dataInJsonArray = new JSONArray(data);
+        SharedPreferences.Editor editor;
 
+        JSONArray dataInJsonArray = new JSONArray(data);
 
         UUID idPartOne = UUID.randomUUID();
         UUID idPartTwo = UUID.randomUUID();
@@ -73,20 +67,42 @@ public class SharePrefEncryption {
         Log.i("Data: ","Stored");
     }
 
+    public void addPinCode(String pin){
+
+        SharedPreferences.Editor editor;
+
+        editor = sharedPreferencesForAppData.edit();
+        editor.putString("Pin Code", pin);
+        editor.apply();
+
+    }
+
+    public void biometricsVerification(Boolean answer){
+        SharedPreferences.Editor editor;
+
+        editor = sharedPreferencesForAppData.edit();
+        editor.putBoolean("Biometrics", answer);
+        editor.apply();
+    }
 
     public AppItem fetchData(String key) throws JSONException {
 
-            JSONArray jsonArray = new JSONArray(sharedPreferencesForAppData.getString(key, "[]"));
-//            for (int i = 0; i < jsonArray.length(); i++) {
-//                Log.i("ArrayList", String.valueOf(i) + " **-** "+ (String) jsonArray.get(i));
-//            }
-            String id = key;
-            String appName = (String) jsonArray.get(0);
-            String account = (String) jsonArray.get(1);
-            String password = (String) jsonArray.get(2);
-            AppItem item = new AppItem(id,appName,account,password);
+        JSONArray jsonArray = new JSONArray(sharedPreferencesForAppData.getString(key, "[]"));
+        String id = key;
+        String appName = (String) jsonArray.get(0);
+        String account = (String) jsonArray.get(1);
+        String password = (String) jsonArray.get(2);
+        AppItem item = new AppItem(id,appName,account,password);
 
         return item;
+    }
+
+    public String fetchPin(){
+        return sharedPreferencesForAppData.getString("Pin Code", "");
+    }
+
+    public Boolean isBiometricsAllowed(){
+        return sharedPreferencesForAppData.getBoolean("Biometrics", false);
     }
 
     public Map<String,?> getAll() {
