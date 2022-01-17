@@ -52,12 +52,13 @@ public class MainActivity extends AppCompatActivity implements AppItemAdapter.On
     private SharePrefEncryption sharedPreferencesForAppData;
     private static final String filename = "SecureDataFile";
 
-
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         addItemFloatingActionButton = (FloatingActionButton) findViewById(R.id.addItemFloatingActionButton);
 
@@ -102,22 +103,39 @@ public class MainActivity extends AppCompatActivity implements AppItemAdapter.On
 
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
     @Override
     protected void onRestart() {
         super.onRestart();
-        Intent intent = new Intent(getApplicationContext(),PinCodeActivity.class);
-        startActivity(intent);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
         try {
             showUsersData();
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     private void showUsersData() throws JSONException {
